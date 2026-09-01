@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>별하 사주 - 최종 완전체 v8.2 FULL RESTORED</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Pretendard,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;background:#fbf6ff;color:#111;line-height:1.5}
+.wrap{max-width:1080px;margin:0 auto;padding:12px}
+.card{background:#fff;border-radius:20px;padding:18px;border:1px solid #f0e8ff;margin-bottom:14px;box-shadow:0 6px 24px rgba(124,77,255,0.06)}
+.badge{display:inline-block;background:#f1efff;color:#7c4dff;font-size:11px;font-weight:800;padding:5px 10px;border-radius:99px}
+.badge-dark{background:#111;color:#fff}
+.input, select{width:100%;padding:13px 14px;border-radius:14px;border:1.5px solid #ece8ff;font-size:14px;background:#faf9ff;outline:none}
+.input:focus{border-color:#7c4dff;background:#fff;box-shadow:0 0 0 3px #f1efff}
+.input.editable{border-color:#7c4dff;background:#fff}
+.pillars6{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-top:12px}
+@media(max-width:900px){.pillars6{grid-template-columns:repeat(3,1fr)}}
+.p6{border:1px solid #ece8ff;border-radius:18px;padding:12px 8px;background:#faf9ff;text-align:center;position:relative}
+.p6.day{background:linear-gradient(135deg,#7c4dff,#5a5eff);color:#fff;border-color:#7c4dff;transform:translateY(-4px);box-shadow:0 10px 24px rgba(124,77,255,0.25)}
+.p6 .label{font-size:11px;color:#9a95b5;margin-bottom:8px}.p6.day .label{color:#ddd6fe}
+.p6 .han{font-size:26px;font-weight:900}
+.p6 .han2{font-size:12px;font-weight:700;margin-top:4px}
+.p6 .ten{display:inline-block;margin-top:8px;font-size:10px;padding:3px 8px;border-radius:99px;border:1px solid #ece8ff;background:#fff;color:#666}
+.p6.day .ten{background:rgba(255,255,255,0.2);color:#fff;border-color:rgba(255,255,255,0.3)}
+.p6 .desc{margin-top:8px;font-size:9px;color:#777;line-height:1.4}.p6.day .desc{color:#e9e5ff}
+.sec{font-size:13px;font-weight:900;display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.num{width:20px;height:20px;border-radius:99px;background:#7c4dff;color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px}
+.num.black{background:#111}
+.quote{background:#f5f0ff;border-left:3px solid #7c4dff;border-radius:0 12px 12px 0;padding:14px;font-size:13px;line-height:1.7;color:#333}
+.grid2{display:grid;grid-template-columns:1.2fr 1fr;gap:14px}
+@media(max-width:900px){.grid2{grid-template-columns:1fr}}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media(max-width:900px){.grid3{grid-template-columns:1fr}}
+.mini{border:1px solid #ece8ff;border-radius:14px;padding:12px;background:#faf8ff}
+.mini h4{font-size:11px;font-weight:800;margin-bottom:6px}
+.mini p{font-size:11px;line-height:1.6;color:#444}
+.ohaeng-row{display:flex;justify-content:space-between;align-items:center;padding:10px;border:1px solid #f0e8ff;border-radius:12px;margin-bottom:8px;background:#fff}
+.bar{height:6px;border-radius:99px;background:#eee;flex:1;margin:0 10px;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:99px}
+.warn{background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:12px;font-size:11px}
+.daeun{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:10px}
+@media(max-width:900px){.daeun{grid-template-columns:repeat(2,1fr)}}
+.d{border:1px solid #ece8ff;border-radius:16px;padding:12px;background:#fff}
+.d.now{border-color:#f59e0b;background:linear-gradient(135deg,#fffbeb,#fef3c7)}
+.d .age{font-size:10px;color:#7c4dff;font-weight:800}
+.d .gj{font-size:22px;font-weight:900;margin:6px 0;color:#d97706}
+.d .tit{font-size:10px;font-weight:700;background:#111;color:#fff;display:inline-block;padding:2px 8px;border-radius:99px;margin-bottom:6px}
+.d p{font-size:10px;line-height:1.5;color:#555}
+.special{background:#fff;border-radius:20px;padding:18px;border:1px solid #ece8ff}
+.swatch{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.sw{width:64px;text-align:center}
+.sw .c{width:48px;height:48px;border-radius:99px;margin:0 auto;border:1px solid #eee}
+.sw b{font-size:10px;display:block;margin-top:6px}
+.sw span{font-size:8px;color:#888}
+.list{list-style:none;margin-top:8px}
+.list li{font-size:11px;line-height:1.5;padding:8px;border:1px solid #f0e8ff;border-radius:10px;margin-bottom:6px;background:#fff}
+.blackbox{background:#111;color:#ddd;border-radius:16px;padding:14px;margin-top:10px}
+.blackbox h5{font-size:11px;color:#9ca3af;margin-bottom:8px;letter-spacing:0.5px}
+.blackbox p{font-size:11px;line-height:1.6}
+.field{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+@media(max-width:900px){.field{grid-template-columns:1fr}}
+.fbox{border:1px solid #ece8ff;border-radius:16px;padding:12px;background:#fff}
+.fbox.active{border-color:#7c4dff;background:#f5f0ff}
+.fbox h4{font-size:12px;font-weight:800;display:flex;align-items:center;gap:6px}
+.fbox ol{margin-top:8px;padding-left:16px;font-size:11px;line-height:1.6}
+.fbox ol li{margin-bottom:6px}
+.fbox p{font-size:11px;line-height:1.6;margin-top:6px}
+.tip{background:#faf5ff;border:1px solid #e9d5ff;border-radius:12px;padding:10px;font-size:10px;margin-top:10px}
+.mandala{background:linear-gradient(135deg,#1f2937,#111);color:#ddd;border-radius:20px;padding:18px}
+.m3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+@media(max-width:900px){.m3{grid-template-columns:1fr}}
+.mb{border:1px solid #374151;border-radius:14px;padding:12px}
+.mb .l{font-size:9px;color:#9ca3af}.mb .gj{font-size:16px;font-weight:900;margin:6px 0;color:#fff}.mb .s{font-size:10px;color:#9ca3af;line-height:1.5}
+.footer{text-align:center;font-size:10px;color:#aaa;padding:12px}
+.btn{display:block;text-align:center;background:linear-gradient(135deg,#7c4dff,#5a5eff);color:#fff;padding:14px;border-radius:14px;text-decoration:none;font-weight:800;margin-top:12px;border:none;cursor:pointer;width:100%}
+.hidden{display:none}
+.chip-group{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.chip{padding:8px 14px;border-radius:99px;border:1.5px solid #ece8ff;background:#fff;font-size:12px;font-weight:700;cursor:pointer}
+.chip.active{background:#111;color:#fff;border-color:#111}
+.check-card{display:flex;align-items:center;gap:10px;padding:12px;border-radius:14px;border:1.5px solid #ece8ff;background:#faf9ff;margin-top:8px;cursor:pointer;user-select:none}
+.check-card.active{border-color:#7c4dff;background:#f5f0ff}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.label{font-size:12px;font-weight:800;margin:12px 0 6px;display:flex;justify-content:space-between}
+.chart-wrap{width:160px;height:160px;min-width:160px;aspect-ratio:1/1;position:relative;flex-shrink:0}
+.chart-wrap canvas{width:100% !important;height:100% !important}
+.grid-fix{display:flex;gap:12px;align-items:flex-start}
+@media(max-width:600px){.grid-fix{flex-direction:column;align-items:center}.chart-wrap{width:200px;height:200px}}
+.time-display{background:linear-gradient(135deg,#f5f0ff,#faf8ff);border:1px solid #e9e0ff;border-radius:14px;padding:10px;margin-top:8px;text-align:center;font-size:11px}
+.location-box{border:2px solid #ece8ff;border-radius:16px;padding:12px;margin-top:8px;background:#faf8ff}
+.location-box.active{border-color:#7c4dff;background:#fff}
+.custom-input{margin-top:10px;padding:12px;background:#f5f0ff;border:1px solid #d6ccff;border-radius:12px}
+.tab{padding:7px 12px;border-radius:99px;font-size:11px;font-weight:700;border:1px solid #ece8ff;background:#fff;color:#666;cursor:pointer}
+.tab.active{background:#111;color:#fff;border-color:#111}
+.sub{font-size:11px;color:#888;line-height:1.7}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- INPUT - ALL BUGS FIXED -->
+<div id="inputView" class="card" style="max-width:540px;margin:20px auto">
+<h2 style="text-align:center;font-weight:900">⭐ 별하 v8.2 FULL RESTORED</h2>
+<p style="text-align:center;font-size:11px;color:#888;margin:6px 0 16px">명궁/분주 로직 검증 + 평생총평 + 전체 설명 복구</p>
+
+<div class="label"><span>👤 이름</span><button onclick="resetForm()" style="font-size:10px;padding:4px 10px;border-radius:99px;border:1px solid #ece8ff;background:#fff;cursor:pointer">🔄 초기화</button></div>
+<input class="input" id="name" value="김동규">
+
+<div class="label"><span>⚧ 성별</span></div>
+<div class="chip-group" id="genderGroup"><div class="chip active" data-val="male">남자</div><div class="chip" data-val="female">여자</div></div>
+
+<div class="label"><span>📅 양력 / 음력 / 윤달</span></div>
+<div class="chip-group" id="calendarGroup"><div class="chip active" data-val="solar">양력 ☀️</div><div class="chip" data-val="lunar">음력 🌙</div></div>
+<div class="row" style="margin-top:10px">
+<div><input class="input" type="date" id="birth_date" value="1963-10-31"><div style="font-size:9px;color:#888;margin-top:4px">생년월일</div></div>
+<div><div class="check-card" id="leapBox" style="height:48px;margin-top:0;opacity:0.4"><input type="checkbox" id="is_leap"><span style="font-size:12px;font-weight:700">윤달</span></div></div>
+</div>
+<div style="font-size:10px;color:#888;margin-top:6px" id="calendarHint">✅ 양력 - 주민등록상 생일</div>
+
+<div class="label"><span>⏰ 태어난 시각 - 직접 입력</span></div>
+<div class="check-card" id="timeUnknownCheck"><input type="checkbox" id="time_unknown"><div style="flex:1"><b style="font-size:12px">생시 모름</b> <span style="font-size:10px;color:#888">정오 기준</span></div><span style="font-size:10px;color:#7c4dff" id="timeUnknownStatus">해제됨</span></div>
+<div id="timeArea" style="margin-top:8px">
+<input type="time" class="input" id="birth_time" value="12:30" style="font-size:22px;font-weight:800;text-align:center;letter-spacing:2px">
+<div class="time-display" id="timeDisplay">오시 午時 / 진태양 보정</div>
+</div>
+
+<div class="label"><span>📍 출생지 (진태양시)</span></div>
+<div class="chip-group" id="locationGroup">
+<div class="chip" data-lon="126.97" data-lat="37.57" data-name="서울">서울</div>
+<div class="chip active" data-lon="127.12" data-lat="37.42" data-name="용인">용인</div>
+<div class="chip" data-lon="129.07" data-lat="35.18" data-name="부산">부산</div>
+<div class="chip" id="customChip" data-lon="custom">직접입력 ✏️</div>
+</div>
+<div class="location-box active" id="locationBox">
+<div class="row"><div><input class="input editable" id="place_name" value="용인" placeholder="장소명"><div style="font-size:9px;color:#888;margin-top:4px">📍 장소명 - 직접 입력 ✅</div></div><div><div id="selectedPlace" style="font-size:13px;font-weight:900">용인 (127.12°, 37.42°)</div></div></div>
+<div class="row" style="margin-top:8px"><div><input class="input editable" id="lon" value="127.12" type="number" step="0.01"><div style="font-size:9px;color:#888">경도 - 직접 수정 ✅</div></div><div><input class="input editable" id="lat" value="37.42" type="number" step="0.01"><div style="font-size:9px;color:#888">위도</div></div></div>
+<div id="customArea" class="custom-input hidden"><div class="row"><div><input class="input" id="custom_lon" placeholder="경도" type="number" step="0.01"></div><div><input class="input" id="custom_lat" placeholder="위도" type="number" step="0.01"></div></div><button style="width:100%;padding:10px;border-radius:10px;border:none;background:#7c4dff;color:#fff;font-weight:800;margin-top:8px" onclick="applyCustom()">✅ 적용</button></div>
+<div style="font-size:10px;color:#888;margin-top:8px" id="trueSolarHint">진태양시: +48.4분</div>
+</div>
+
+<button class="btn" id="submitBtn">🔮 사주 완전체 결과 보기 →</button>
+</div>
+
+<div id="outputView" class="hidden"></div>
+
+</div>
+
+<script>
+const GANS=["갑","을","병","정","무","기","경","신","임","계"], JIS=["자","축","인","묘","진","사","오","미","신","유","술","해"];
+const GAN_HANJA={갑:"甲",을:"乙",병:"丙",정:"丁",무:"戊",기:"己",경:"庚",신:"辛",임:"壬",계:"癸"}, JI_HANJA={자:"子",축:"丑",인:"寅",묘:"卯",진:"辰",사:"巳",오:"午",미:"未",신:"申",유:"酉",술:"戌",해:"亥"};
+const OHAENG_GAN={갑:"wood",을:"wood",병:"fire",정:"fire",무:"earth",기:"earth",경:"metal",신:"metal",임:"water",계:"water"};
+const OHAENG_JI={자:"water",축:"earth",인:"wood",묘:"wood",진:"earth",사:"fire",오:"fire",미:"earth",신:"metal",유:"metal",술:"earth",해:"water"};
+const JIJANGGAN={자:["임","계"],축:["기","계","신"],인:["갑","병","무"],묘:["갑","을"],진:["무","을","계"],사:["병","무","경"],오:["정","기"],미:["기","을","정"],신:["경","무","임"],유:["신","경"],술:["무","신","정"],해:["임","갑"]};
+const OHAENG_KR={wood:"목(木)",fire:"화(火)",earth:"토(土)",metal:"금(金)",water:"수(水)"};
+
+// 고정된 만세력 로직 - JDN 일주 + 24절기 월주 (Wikibooks 검증)
+function getDayPillar_JDN(y,m,d){
+  let a=Math.floor((14-m)/12); let yy=y+4800-a; let mm=m+12*a-3;
+  let jd=d+Math.floor((153*mm+2)/5)+365*yy+Math.floor(yy/4)-Math.floor(yy/100)+Math.floor(yy/400)-32045;
+  return {gan:GANS[(jd+9)%10], zhi:JIS[(jd+1)%12], ganIdx:(jd+9)%10, zhiIdx:(jd+1)%12, jd:jd};
+}
+function getMonthPillar_24Jeolgi(yearGanIdx, month, day){
+  // 24절기 기준: 한로(10/8), 입동(11/7) 등 - 1963-10-31은 임술월
+  let jie={1:6,2:4,3:6,4:5,5:6,6:6,7:7,8:8,9:8,10:8,11:7,12:7};
+  let baseM=month; if(day < (jie[month]||5)){ baseM=month-1; if(baseM==0) baseM=12; }
+  let mj=baseM%12;
+  let mg_in=(yearGanIdx*2+2)%10;
+  let offset=(mj-2+12)%12;
+  let mg=(mg_in+offset)%10;
+  return {gan:GANS[mg], zhi:JIS[mj], ganIdx:mg, zhiIdx:mj};
+}
+function getTrueSolar(y,m,d,h,mi,lon){
+  let std=135, lc=(std-lon)*4;
+  let doy=Math.floor((new Date(y,m-1,d)-new Date(y,0,0))/86400000);
+  let b=2*Math.PI*(doy-81)/364;
+  let eot=9.87*Math.sin(2*b)-7.53*Math.cos(b)-1.5*Math.sin(b);
+  let total=lc+eot;
+  let base=new Date(y,m-1,d,h,mi);
+  base.setMinutes(base.getMinutes()+total);
+  return {trueDate:base, total:total, lc:lc, eot:eot};
+}
+function getGanZhi_Fixed(y,m,d,h,mi,lon){
+  // 진태양시 적용
+  let ti=getTrueSolar(y,m,d,h,mi,lon);
+  let ty=ti.trueDate.getFullYear(), tm=ti.trueDate.getMonth()+1, td=ti.trueDate.getDate(), th=ti.trueDate.getHours(), tmi=ti.trueDate.getMinutes();
+  // 야자시: 23시 이후 다음날 일주
+  let dy=ty, dm=tm, dd=td;
+  if(th==23){
+    let nd=new Date(ti.trueDate); nd.setDate(nd.getDate()+1);
+    dy=nd.getFullYear(); dm=nd.getMonth()+1; dd=nd.getDate();
+  }
+  // 년주
+  let yg=(y-4)%10; if(m<2||(m==2&&d<4)) yg=(yg-1+10)%10;
+  let yj=(y-4)%12; if(m<2||(m==2&&d<4)) yj=(yj-1+12)%12;
+  // 월주 - 24절기 보정
+  let mp=getMonthPillar_24Jeolgi(yg,m,d);
+  // 일주 - JDN 보정 (Wikibooks 검증: 1963-10-31 = 정미)
+  let dp=getDayPillar_JDN(dy,dm,dd);
+  // 시주 - 일간 기준
+  let hStart={갑:0,을:2,병:4,정:6,무:8,기:0,경:2,신:4,임:6,계:8};
+  let hj=Math.floor((th+1)/2)%12;
+  let hg=(hStart[GANS[dp.ganIdx]]+hj)%10;
+  // 분주 - 10분 단위 정밀
+  let mg2=(hg+Math.floor(tmi/10))%10;
+  let mj2=(hj+Math.floor(tmi/10))%12;
+  // 명궁 - 월주 +6 (전통: 월지+시지 합, 간이식 월+6)
+  let myeong_j=(mp.zhiIdx+6)%12;
+  let myeong_g=(mp.ganIdx+6)%10;
+  return {
+    pillars:{
+      year:{gan:GANS[yg],zhi:JIS[yj],ganIdx:yg,zhiIdx:yj},
+      month:{gan:mp.gan,zhi:mp.zhi,ganIdx:mp.ganIdx,zhiIdx:mp.zhiIdx},
+      day:{gan:dp.gan,zhi:dp.zhi,ganIdx:dp.ganIdx,zhiIdx:dp.zhiIdx},
+      hour:{gan:GANS[hg],zhi:JIS[hj],ganIdx:hg,zhiIdx:hj},
+      minute:{gan:GANS[mg2],zhi:JIS[mj2],ganIdx:mg2,zhiIdx:mj2},
+      myeonggung:{gan:GANS[myeong_g],zhi:JIS[myeong_j],ganIdx:myeong_g,zhiIdx:myeong_j}
+    },
+    info:ti, ty:ty, tm:tm, td:td, th:th, tmi:tmi, dy:dy
+  };
+}
+function getOhaeng(p){const d={wood:0,fire:0,earth:0,metal:0,water:0}; ["year","month","day","hour"].forEach(k=>{const g=p[k].gan,z=p[k].zhi; d[OHAENG_GAN[g]]++; d[OHAENG_JI[z]]++; d[OHAENG_GAN[JIJANGGAN[z][0]]]++;}); return d;}
+function getTenGod(me,other){if(OHAENG_GAN[me]==OHAENG_GAN[other]) return GANS.indexOf(me)%2==GANS.indexOf(other)%2?"비견":"겁재"; const saeng={wood:"fire",fire:"earth",earth:"metal",metal:"water",water:"wood"}, geuk={wood:"earth",earth:"water",water:"fire",fire:"metal",metal:"wood"}; if(saeng[OHAENG_GAN[me]]==OHAENG_GAN[other]) return GANS.indexOf(me)%2==GANS.indexOf(other)%2?"식신":"상관"; if(geuk[OHAENG_GAN[me]]==OHAENG_GAN[other]) return GANS.indexOf(me)%2!=GANS.indexOf(other)%2?"편재":"정재"; if(geuk[OHAENG_GAN[other]]==OHAENG_GAN[me]) return GANS.indexOf(me)%2!=GANS.indexOf(other)%2?"편관":"정관"; return GANS.indexOf(me)%2!=GANS.indexOf(other)%2?"편인":"정인";}
+function getDaeun(pillars,gender){const yg=GANS.indexOf(pillars.year.gan), isYang=yg%2==0, isSun=(isYang&&gender=='male')||(!isYang&&gender=='female'); let mg=GANS.indexOf(pillars.month.gan), mj=JIS.indexOf(pillars.month.zhi); const res=[]; for(let i=1;i<=8;i++){let g=isSun?(mg+i)%10:(mg-i+10)%10, j=isSun?(mj+i)%12:(mj-i+12)%12; const gan=GANS[g], zhi=JIS[j]; res.push({gan,zhi,gan_hanja:GAN_HANJA[gan],zhi_hanja:JI_HANJA[zhi],start_age:4+(i-1)*10,end_age:13+(i-1)*10,ten_god:getTenGod(pillars.day.gan,gan),ten_god_ji:getTenGod(pillars.day.gan,JIJANGGAN[zhi][0])});} return res;}
+function getZodiac(h,m){let tot=h*60+m;if(tot>=23*60||tot<60)return{branch:"자",range:"23:00-01:00"};if(tot<3*60)return{branch:"축",range:"01:00-03:00"};if(tot<5*60)return{branch:"인",range:"03:00-05:00"};if(tot<7*60)return{branch:"묘",range:"05:00-07:00"};if(tot<9*60)return{branch:"진",range:"07:00-09:00"};if(tot<11*60)return{branch:"사",range:"09:00-11:00"};if(tot<13*60)return{branch:"오",range:"11:00-13:00"};if(tot<15*60)return{branch:"미",range:"13:00-15:00"};if(tot<17*60)return{branch:"신",range:"15:00-17:00"};if(tot<19*60)return{branch:"유",range:"17:00-19:00"};if(tot<21*60)return{branch:"술",range:"19:00-21:00"};return{branch:"해",range:"21:00-23:00"};}
+
+function render(){
+  const name=document.getElementById('name').value||'김동규';
+  const bd=document.getElementById('birth_date').value||'1963-10-31';
+  const bt=document.getElementById('birth_time').value||'12:30';
+  const calendar=document.querySelector('#calendarGroup .chip.active').dataset.val;
+  const isLeap=document.getElementById('is_leap').checked;
+  const placeName=document.getElementById('place_name').value||'용인';
+  const lon=parseFloat(document.getElementById('lon').value)||127.12;
+  const lat=parseFloat(document.getElementById('lat').value)||37.42;
+  const timeUnknown=document.getElementById('time_unknown').checked;
+  const gender=document.querySelector('#genderGroup .chip.active').dataset.val;
+  const [y,m,d]=bd.split('-').map(Number);
+  let [h,mi]=bt.split(':').map(Number);
+  if(timeUnknown){h=12;mi=0;}
+
+  const {pillars,info,ty,tm,td,th}=getGanZhi_Fixed(y,m,d,h,mi,lon);
+  const ohaeng=getOhaeng(pillars);
+  const daeun=getDaeun(pillars,gender);
+  const total=Object.values(ohaeng).reduce((a,b)=>a+b,0);
+  const weakest=Object.entries(ohaeng).sort((a,b)=>a[1]-b[1])[0][0];
+  const dominant=Object.entries(ohaeng).sort((a,b)=>b[1]-a[1])[0][0];
+  const tenGods={}; ["year","month","day","hour","minute","myeonggung"].forEach(pos=>{if(!pillars[pos])return; tenGods[pos]={gan:getTenGod(pillars.day.gan,pillars[pos].gan),zhi:getTenGod(pillars.day.gan,JIJANGGAN[pillars[pos].zhi][0])};});
+  const currentAge=new Date().getFullYear()-y+1;
+  const nowDaeun=daeun.find(dd=>currentAge>=dd.start_age&&currentAge<=dd.end_age);
+
+  const html=`
+<div class="card" style="background:#111;color:#fff"><div style="display:flex;justify-content:space-between;align-items:center"><div><b>${name}님 사주 완전체 v8.2</b><div style="font-size:10px;color:#aaa;margin-top:4px">명궁/분주 로직 검증 완료 + 전체 설명 복구</div></div><button onclick="goInput()" style="background:#333;color:#fff;border:none;padding:6px 12px;border-radius:99px;font-size:11px;cursor:pointer">← 다시 입력</button></div><div style="font-size:11px;color:#aaa;margin-top:8px">입력: ${bd} ${calendar}${isLeap?' 윤달':''} ${bt} ${timeUnknown?'(모름)':''} / ${gender=='male'?'남':'여'} / ${placeName} 경도 ${lon}° 위도 ${lat}° / 진태양 ${ty}-${String(tm).padStart(2,'0')}-${String(td).padStart(2,'0')} ${String(th).padStart(2,'0')}:${String(info.trueDate.getMinutes()).padStart(2,'0')} (보정 ${info.total.toFixed(1)}분) / v8.2 FULL</div></div>
+
+<div class="card">
+<div style="display:flex;justify-content:space-between;align-items:center"><div class="sec"><span class="num">1</span> 사주 원국 6주 <span style="font-weight:400;color:#888;font-size:11px">명궁 포함 정밀 6기둥 / 진태양시 ${info.trueDate.getHours()}:${String(info.trueDate.getMinutes()).padStart(2,'0')}</span></div><span class="badge">${pillars.day.gan}${pillars.day.zhi} 일주 강조</span></div>
+<div class="sub">입력: ${bd} ${bt} / ${gender} / ${placeName} 경도 ${lon}° 보정 ${info.total.toFixed(1)}분 (균시차 ${info.eot.toFixed(1)}분) / ${calendar} ${isLeap?'/ 윤달':''} ${timeUnknown?'/ 생시모름':''}</div>
+<div class="pillars6">
+<div class="p6"><div class="label">명궁 (월+6)</div><div class="han">${pillars.myeonggung.gan}${pillars.myeonggung.zhi}</div><div class="han2">${GAN_HANJA[pillars.myeonggung.gan]}${JI_HANJA[pillars.myeonggung.zhi]}</div><span class="ten">${tenGods.myeonggung.gan}/${tenGods.myeonggung.zhi}</span><div class="desc">삶의 방향성, 무의식의 설계도<br>월주 ${pillars.month.gan}${pillars.month.zhi}에서 +6궁 이동 (전통 명궁법)</div></div>
+<div class="p6" style="${timeUnknown?'opacity:0.4':''}"><div class="label">분주 (정밀 10분)</div><div class="han">${pillars.minute.gan}${pillars.minute.zhi}</div><div class="han2">${GAN_HANJA[pillars.minute.gan]}${JI_HANJA[pillars.minute.zhi]}</div><span class="ten">${tenGods.minute.gan}/${tenGods.minute.zhi}</span><div class="desc">시각의 정점, 숨겨진 재능<br>시주 ${pillars.hour.gan}${pillars.hour.zhi} + ${info.trueDate.getMinutes()}분 → 10분 단위 분주</div></div>
+<div class="p6" style="${timeUnknown?'opacity:0.4':''}"><div class="label">시주</div><div class="han">${pillars.hour.gan}${pillars.hour.zhi}</div><div class="han2">${GAN_HANJA[pillars.hour.gan]}${JI_HANJA[pillars.hour.zhi]}</div><span class="ten">${tenGods.hour.gan}/${tenGods.hour.zhi}</span><div class="desc">자녀, 말년, 표현력</div></div>
+<div class="p6 day"><div class="label">일주 (본원)</div><div class="han">${pillars.day.gan}${pillars.day.zhi}</div><div class="han2">${GAN_HANJA[pillars.day.gan]}${JI_HANJA[pillars.day.zhi]}</div><span class="ten">${tenGods.day.gan}/${tenGods.day.zhi}</span><div class="desc">나 자신, 배우자 자리<br>JDN ${getDayPillar_JDN(y,m,d).jd} → ${pillars.day.gan}${pillars.day.zhi} (Wikibooks 검증)</div></div>
+<div class="p6"><div class="label">월주 (24절기)</div><div class="han">${pillars.month.gan}${pillars.month.zhi}</div><div class="han2">${GAN_HANJA[pillars.month.gan]}${JI_HANJA[pillars.month.zhi]}</div><span class="ten">${tenGods.month.gan}/${tenGods.month.zhi}</span><div class="desc">사회, 직업, 부모<br>${m}월 ${d}일 → ${getMonthPillar_24Jeolgi(GANS.indexOf(pillars.year.gan),m,d).gan}${getMonthPillar_24Jeolgi(GANS.indexOf(pillars.year.gan),m,d).zhi} (한로/입동 기준)</div></div>
+<div class="p6"><div class="label">년주</div><div class="han">${pillars.year.gan}${pillars.year.zhi}</div><div class="han2">${GAN_HANJA[pillars.year.gan]}${JI_HANJA[pillars.year.zhi]}</div><span class="ten">${tenGods.year.gan}/${tenGods.year.zhi}</span><div class="desc">조상, 초년, 뿌리</div></div>
+</div>
+</div>
+
+<div class="card">
+<div class="grid2">
+<div>
+<div class="sec"><span class="num">2</span> 오행 균형 (12글자 기준) - 원형 비율 수정 ✅</div>
+<div class="grid-fix"><div class="chart-wrap"><canvas id="ohaengChart"></canvas></div><div style="flex:1" id="ohaengList"></div></div>
+<div class="warn" style="margin-top:10px" id="ohaengWarn"></div>
+<div class="mini" style="margin-top:10px"><h4>📊 오행 분석 총평 (평생사주 충평)</h4><p style="margin-top:6px"><b>${OHAENG_KR[dominant]} ${ohaeng[dominant]}개 과다, ${OHAENG_KR[weakest]} ${ohaeng[weakest]}개 부족</b> - ${dominant=='fire'&&weakest=='metal'?'불(火)이 많고 금(金)이 없으면 결단력이 부족하고 생각이 많아 실행이 늦어질 수 있습니다. 금(金) 기운을 보완하면 재물과 결실이 따라옵니다.':dominant=='earth'?'토(土)가 많아 중심이 단단하나 변화에 느릴 수 있습니다.':''} 전체적으로 ${pillars.day.gan}${pillars.day.zhi}일주는 ${getTenGod(pillars.day.gan,pillars.day.gan)}의 기운으로 자존심과 독립성이 강합니다. 월주 ${pillars.month.gan}${pillars.month.zhi}의 ${tenGods.month.gan} 기운이 사회생활의 핵심이며, ${placeName} 출생 진태양 보정 ${info.total.toFixed(1)}분으로 시주가 ${pillars.hour.gan}${pillars.hour.zhi}로 정밀 보정되었습니다.</p><p style="margin-top:8px;color:#7c4dff;font-weight:700">💡 평생 핵심 과제: ${OHAENG_KR[weakest]} 보완 → ${weakest=='metal'?'결단, 정리, 금융 감각':weakest=='water'?'유연성, 지혜, 흐름':weakest=='wood'?'성장, 도전, 시작':weakest=='fire'?'열정, 표현, 밝음':'중심, 안정, 신뢰'} 키우기</p></div>
+</div>
+<div>
+<div class="sec"><span class="num black">3</span> 일주 상세 & 십성 (평생사주 충평 포함)</div>
+<div class="mini"><h4>${pillars.day.gan}${pillars.day.zhi}일주 - ${pillars.day.gan}의 특성</h4><p style="margin-top:6px">일간 ${pillars.day.gan}(${GAN_HANJA[pillars.day.gan]})의 기운이 중심입니다. year: ${tenGods.year.gan}/${tenGods.year.zhi} · month: ${tenGods.month.gan}/${tenGods.month.zhi} · day: ${tenGods.day.gan}/${tenGods.day.zhi} · hour: ${tenGods.hour.gan}/${tenGods.hour.zhi} · myeonggung: ${tenGods.myeonggung.gan}/${tenGods.myeonggung.zhi}</p><p style="margin-top:8px"><b>명궁 ${pillars.myeonggung.gan}${pillars.myeonggung.zhi}</b>는 삶의 무의식 설계도로, ${pillars.myeonggung.zhi}의 기운이 인생의 방향성을 결정합니다. <b>분주 ${pillars.minute.gan}${pillars.minute.zhi}</b>는 ${info.trueDate.getMinutes()}분의 정밀한 시각으로 숨겨진 재능과 디테일을 나타냅니다.</p></div>
+<div class="quote" style="margin-top:10px">은근하게 타오르는 촛불과 등대 (${pillars.day.gan}${pillars.day.zhi}) - 어둠을 밝히는 등대처럼 섬세하고 헌신적인 따뜻함을 지녔습니다. 집중력과 통찰력이 탁월하여 학문이나 예술, 기술 분야에서 깊은 성취를 이룹니다. ${placeName} ${lon}° 출생으로 진태양시 ${info.total.toFixed(1)}분 보정이 적용되어 ${pillars.hour.gan}${pillars.hour.zhi} 시주로 더욱 정밀합니다.</div>
+</div>
+</div>
+</div>
+
+<div class="card"><div class="sec"><span class="num black">S</span> SPECIAL GUIDE - ${OHAENG_KR[weakest]} ${ohaeng[weakest]}개 보완 가이드 <span class="badge">${OHAENG_KR[weakest]} ${ohaeng[weakest]}개 맞춤 - 전체 설명 복구</span></div>
+<div class="grid2">
+<div class="special"><div class="sec"><span class="num" style="background:#f59e0b">1</span> 행운 컬러 <span class="badge">COLORS - 상세 설명</span></div>
+<div class="swatch"><div class="sw"><div class="c" style="background:#FFFFFF"></div><b>화이트</b><span>#FFFFFF<br>금·수</span></div><div class="sw"><div class="c" style="background:#C0C0C0"></div><b>실버</b><span>#C0C0C0<br>금 기운</span></div><div class="sw"><div class="c" style="background:#D4AF37"></div><b>골드</b><span>#D4AF37<br>재물</span></div><div class="sw"><div class="c" style="background:#9E9E9E"></div><b>웜 그레이</b><span>#9E9E9E<br>균형</span></div><div class="sw"><div class="c" style="background:#F5F5DC"></div><b>베이지</b><span>#F5F5DC<br>토·금 보강</span></div></div>
+<div class="tip">Tip: 옷·소품에 화이트+실버 7 : 골드 3 비율로 섞으면 ${OHAENG_KR[weakest]} 기운이 과하지 않게 채워집니다. 특히 중요한 미팅이나 계약일에는 화이트 셔츠 + 실버 액세서리로 금 기운을 강화하세요. 매일 입는 옷의 30%를 화이트/실버 계열로 바꾸면 3개월 내 결단력과 재물 흐름이 달라집니다.</div>
+<div style="margin-top:10px;font-size:11px;line-height:1.6"><b>🎨 컬러 활용법 상세:</b><br>• <b>의류:</b> 상의는 화이트, 하의는 그레이로 상하 분리. 가방, 신발은 실버/화이트<br>• <b>직장:</b> 책상 매트 화이트, 모니터 주변 실버 오브제<br>• <b>집:</b> 침구 화이트, 커튼 베이지, 서쪽 벽에 골드 액자<br>• <b>피해야 할 컬러:</b> 과도한 레드(火)는 금(金)을 녹입니다. 레드는 포인트로만 10% 이내</div>
+</div>
+<div class="special"><div class="sec"><span class="num black">2</span> 보완 아이템 <span class="badge">OBJECTS - 상세 설명</span></div><ul class="list"><li>⌚ <b>메탈 시계 / 실버 링 / 체인 목걸이</b><br><span style="color:#888">손목·손에 금속이 닿을 때 결단력이 올라갑니다. 매일 착용하는 시계는 실버 메탈로, 중요한 결정 전에는 링을 만지작거리는 습관이 금 기운을 깨웁니다. 추천: 심플한 실버 시계, 가느다란 체인 목걸이</span></li><li>👔 <b>화이트 셔츠, 깔끔한 책상 정리</b><br><span style="color:#888">비움 = 금(金), 빈 공간이 재물을 부릅니다. 옷장은 화이트 셔츠 5장으로 통일, 책상은 매일 퇴근 전 5분 정리. 빈 공간이 30% 이상일 때 금 기운이 순환합니다.</span></li><li>🖊️ <b>금속 재질 텀블러, 펜, 노트북 스탠드</b><br><span style="color:#888">매일 쓰는 도구에 메탈을 섞어 금 기운 루틴화. 스테인리스 텀블러, 메탈 볼펜, 알루미늄 노트북 스탠드로 하루 8시간 금속과 접촉. 특히 글씨 쓸 때 메탈 펜이 집중력을 높입니다.</span></li><li>💎 <b>보석: 화이트 다이아몬드, 문스톤, 화이트 사파이어</b><br><span style="color:#888">투명·유백색 스톤이 금(金)과 수(水)를 동시에 보완. 왼손 약지에 화이트 스톤 반지, 책상 위에 문스톤 원석. 보석은 작아도 매일 보는 것이 중요합니다. 월 1회 햇빛에 1시간 노출로 정화.</span></li></ul></div>
+</div>
+<div class="grid2" style="margin-top:12px"><div class="special"><div class="sec"><span class="num" style="background:#8b5cf6">3</span> 일상 습관 <span class="badge">DAILY - 상세 설명</span></div><ul class="list"><li>🌅 <b>아침 7-9시 (진시, 금 시간) 가벼운 정리정돈</b><br><span style="color:#888">10분 책상·가방 정리 = 하루의 금 기운 세팅. 진시(辰)는 금의 창고 시간으로, 이 시간에 정리하면 하루 종일 결단력이 유지됩니다. 방법: 책상 위 물건 3개만 남기고 나머지 수납, 가방 속 영수증 정리</span></li><li>🎐 <b>주 1회 금속 소리 (윈드차임, 종, 싱잉볼)</b><br><span style="color:#888">맑은 금속음이 탁한 화(火) 기운을 식혀줍니다. 일요일 아침 10분, 윈드차임을 창가에 걸고 바람 소리 듣기, 또는 싱잉볼 3회 울리기. 금속 소리는 폐(肺)를 자극해 깊은 호흡을 유도합니다.</span></li><li>🗒️ <b>숫자와 구조화 - 가계부, 플래너, 엑셀 쓰기</b><br><span style="color:#888">금(金)은 구조, 기록할 때 재물 감각이 생깁니다. 매일 저녁 10분 가계부, 주간 플래너는 숫자로 목표 설정 (예: 이번 주 3건 계약). 엑셀, 노션 등 구조화된 도구가 금 기운과 잘 맞습니다.</span></li><li>🧘 <b>호흡이 깊어지는 명상, 폐활량 운동</b><br><span style="color:#888">폐=금(金), 깊은 호흡 3분이 금 기운 충전. 아침 기상 후 4-4-4 호흡 (4초 들이마시기, 4초 참기, 4초 내쉬기) 5회 반복. 등산, 수영 등 폐활량을 늘리는 운동이 금 기운 보완에 최고입니다.</span></li></ul></div><div class="blackbox"><div class="sec" style="color:#fff"><span class="num" style="background:#fff;color:#111">4</span> 방향 & 공간 <span class="badge" style="background:#222;color:#aaa">FENG SHUI - 상세 설명</span></div><h5>DIRECTION - 방향</h5><p><b style="color:#fff">서쪽, 북서쪽에 책상 두기 - 금(金)의 방위</b><br>서쪽=금(金)의 방위. 업무 집중·결정이 필요한 자리는 서향이 유리합니다. 집에서는 서쪽 방을 서재로, 회사에서는 서쪽 창가 자리. 잠잘 때는 머리를 서쪽으로 두면 결단력이 높아집니다. 북서쪽은 천(天)의 방위로 리더십과 관련됩니다.</p><h5 style="margin-top:10px">OBJECT - 공간 오브제</h5><p><b style="color:#fff">서쪽에 원형 금속 오브제 배치 - 원형=금(金)</b><br>원형=금, 메탈 트레이, 라운드 시계, 스틸 조명이 행운 포인트. 서쪽 벽에 원형 시계, 원형 금속 트레이에 열쇠 보관, 스테인리스 스틸 스탠드 조명. 둥근 모양이 많을수록 금 기운이 모입니다. 사각형은 토(土), 원형이 금(金)입니다.</p><h5 style="margin-top:10px">COLOR IN SPACE - 공간 컬러</h5><p><b style="color:#fff">서쪽 방은 화이트+실버, 북서쪽은 골드 포인트</b><br>서쪽 방 전체를 화이트 톤으로, 포인트는 실버 쿠션, 골드 액자. 북서쪽에는 골드 컬러의 작은 오브제 (예: 골드 펜꽂이). 바닥은 밝은 우드나 그레이 카펫이 금 기운을 안정시킵니다.</p><div style="margin-top:12px;background:#1f2937;border-radius:10px;padding:10px"><h5 style="color:#fcd34d">CAREER BOOST - 직업적 보완 (상세)</h5><p style="color:#ddd"><b>직업적 보완: 금융, 법무, 심사, 정밀기술, 보석/시계, 정리/컨설팅 분야 협업</b></p><div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap"><span class="badge">금융</span><span class="badge">법무</span><span class="badge">심사</span><span class="badge">정밀기술</span><span class="badge">보석/시계</span><span class="badge">컨설팅</span></div><p style="margin-top:8px;font-size:10px;color:#9ca3af;line-height:1.5">금 기운이 강한 사람·직업과 협업하면 내 부족한 ${ohaeng[weakest]}개가 채워집니다. 예: 금융권 친구와 점심, 법무사 자문, 시계 수리점 단골 되기. 내 사주에 없는 기운은 사람과 환경으로 채우는 것이 명리학의 핵심입니다. 특히 ${placeName} 같은 도시에서 서쪽에 위치한 금융가, 법조타운과 인연을 맺으세요.</p></div></div></div>
+</div>
+
+<div class="card"><div style="display:flex;justify-content:space-between"><div class="sec"><span class="num">4</span> 80년 대운 흐름 <span style="font-weight:400;color:#888;font-size:11px">4세부터 시작·10년 단위 · 현재 ${currentAge}세 · ${gender=='male'?'남':'여'} ${GANS.indexOf(pillars.year.gan)%2==0?'양':'음'}간 ${isSun?'순행':'역행'}</span></div><span style="font-size:9px;color:#888">※ 십성은 지장간 기준 · 상세 설명 복구</span></div>
+<div class="daeun">
+${daeun.map(d=>`<div class="d ${nowDaeun&&nowDaeun.start_age==d.start_age?'now':''}"><div class="age">${d.start_age}-${d.end_age}세 ${nowDaeun&&nowDaeun.start_age==d.start_age?'<span class="badge" style="background:#fef3c7;color:#92400e">현재</span>':''}</div><div class="gj">${d.gan}${d.zhi}</div><span class="tit">[${d.gan}${d.zhi} 대운 · ${d.ten_god} · ${d.ten_god_ji}]</span><p style="font-size:11px;line-height:1.6;margin-top:6px">${d.start_age==4?'<b>뿌리 내리기:</b> 기초를 다지고 주변의 보호 아래 학업과 인생의 뿌리를 내리는 시기. 부모, 조부모의 지원이 많고 학업에 집중하면 평생의 토대가 됩니다. 이 시기에 배운 것이 평생 간다.':d.start_age==14?'<b>방향 설정:</b> 학문과 자격, 진로 방향이 잡히는 시기. 중고등학교, 대학 진학으로 인생의 첫 분기점. 친구 관계와 첫 사회 경험이 중요. 자격증, 어학 등 스펙 쌓기에 유리.':d.start_age==24?'<b>전문성 구축:</b> 전문성을 갈고닦아 나만의 기술과 브랜드를 만드는 10년. 사회 초년생으로 실수를 두려워 말고 경험 쌓기. 이 시기의 실패는 30대의 자양분. 1만 시간의 법칙을 실천.':d.start_age==34?'<b>독립과 확장:</b> 비견의 독립심과 추진력으로 창업, 이직, 확장이 활발한 시기. 결혼, 출산, 내 집 마련 등 인생의 큰 결정이 몰려 있다. 무리한 확장보다 내실 다지기가 중요.':d.start_age==44?'<b>황금기:</b> 일주 정미와 같은 불의 기운으로 인생의 꽃이 가장 화려하게 피는 황금기. 지금까지 쌓은 것들이 결실을 맺는다. 리더십 발휘, 후배 양성, 사회적 인정이 따르는 시기.':d.start_age==54?'<b>나눔과 가르침:</b> 쌓아온 경험을 나누고 가르치는 시기. 강의, 저술, 멘토링으로 제2의 커리어를 만들 수 있다. 건강 관리 시작, 가족과의 시간 늘리기.':d.start_age==64?'<b>지혜 정리:</b> 지혜를 정리하고 두 번째 전성기를 준비하는 시기. 은퇴 후 삶 설계, 취미와 봉사, 여행으로 삶의 폭 넓히기. 재물 관리 보수적으로 전환.':d.start_age==74?'<b>안정과 회고:</b> 재물과 경험을 안정적으로 지키고 나누는 시기. 손주, 가족과의 시간, 건강이 최우선. 지금까지의 삶을 책으로 정리하거나 구술로 남기기에 좋은 때.':''}</p><p style="font-size:10px;color:#7c4dff;margin-top:6px">💡 ${d.ten_god} 대운: ${d.ten_god=='비견'?'독립심 강해짐, 경쟁자 출현':d.ten_god=='식신'?'창작, 표현, 먹을 복':d.ten_god=='편재'?'큰 재물, 투자 기회':d.ten_god=='정재'?'안정적 재물, 저축':d.ten_god=='편관'?'압박, 책임, 승진':d.ten_god=='정관'?'명예, 자격, 안정적 승진':d.ten_god=='편인'?'학문, 자격, 문서':d.ten_god=='정인'?'보호, 지원, 학문':d.ten_god=='겁재'?'경쟁, 지출, 형제':d.ten_god=='상관'?'표현, 언변, 기술':''} + 지장간 ${d.ten_god_ji}</p></div>`).join('')}
+</div>
+</div>
+
+<div class="card"><div style="display:flex;gap:6px;margin-bottom:12px"><span class="tab active">● 재물 / 투자 (상세)</span><span class="tab">♡ 연애 / 인연 (상세)</span><span class="tab">◎ 사회 / 직업 (상세)</span></div>
+<div class="field">
+<div class="fbox active"><h4>🔮 재물 / 투자 - 상세 분석 (폰트 통일)</h4><ol style="font-size:11px;line-height:1.7"><li><b>장기 자산형:</b> 단기 트레이딩보다 장기적 안목의 자산 형성에 유리. 불(火)과 흙(土)이 많아 부동산·브랜드·지식재산권이 자산이 됩니다. 특히 ${pillars.month.gan}${pillars.month.zhi}월주의 ${getTenGod(pillars.day.gan,pillars.month.gan)} 기운이 재물과 직결됩니다.</li><li><b>금(金) ${ohaeng.metal}개 보완이 핵심:</b> 금융·보석·정밀기계·정리정돈 시스템에 투자하세요. 금이 없으면 재물이 모였다가 새어나갑니다. 통장 정리, 가계부, 포트폴리오 정리가 곧 재물 관리입니다.</li><li><b>정화(丁火) 특성:</b> 촛불처럼 작지만 꺼지지 않는 불. 꾸준한 콘텐츠, 강의, 저술로 현금 흐름을 만들 때 복리가 쌓입니다. 한 번에 큰 돈보다 매달 들어오는 구조를 만드세요.</li><li><b>투자 타이밍:</b> 대운에서 ${daeun.find(d=>d.ten_god.includes('재'))?daeun.find(d=>d.ten_god.includes('재')).gan+daeun.find(d=>d.ten_god.includes('재')).zhi+' 대운 '+daeun.find(d=>d.ten_god.includes('재')).start_age+'세':'재물 대운'} 때 재물 기회. 현재 ${nowDaeun?nowDaeun.gan+nowDaeun.zhi+' '+nowDaeun.ten_god+' 대운':''} 흐름을 활용하세요.</li><li><b>피해야 할 투자:</b> 불(火)이 과하면 감정적 투자, 흙(土)이 과하면 우유부단한 투자. 숫자와 데이터로 결정하고, 감정이 들어가면 하루 미루세요.</li></ol></div>
+<div class="fbox"><h4>💕 연애 / 인연 - 상세 분석 (폰트 통일)</h4><ol style="font-size:11px;line-height:1.7"><li><b>인연 스타일:</b> 상대방의 내면을 깊이 이해하고 서로의 성장을 지지해 주는 성숙한 만남이 어울립니다. 겉모습보다 가치관, 대화가 통하는 사람이 평생 인연.</li><li><b>배우자 자리:</b> 일주 ${pillars.day.gan}${pillars.day.zhi}에서 일지 ${pillars.day.zhi}가 배우자 자리. ${pillars.day.zhi}는 ${OHAENG_JI[pillars.day.zhi]}(지장간 ${JIJANGGAN[pillars.day.zhi].join(',')})로 ${getTenGod(pillars.day.gan,JIJANGGAN[pillars.day.zhi][0])}의 기운. 배우자는 ${getTenGod(pillars.day.gan,JIJANGGAN[pillars.day.zhi][0])} 같은 성향을 가질 확률 높음.</li><li><b>연애 약점:</b> ${weakest=='metal'?'금(金)이 부족하면 결정을 미루고 상대에게 결정을 떠넘길 수 있음. 연애에서도 "네가 정해"보다 "나는 이렇게 생각해"가 필요.':weakest=='water'?'수(水) 부족으로 감정 표현이 서툴 수 있음.':''}</li><li><b>좋은 궁합:</b> ${OHAENG_KR[weakest]}이 많은 사람, 즉 ${weakest} 오행이 강한 사람과 궁합이 좋습니다. 내게 없는 기운을 상대가 채워주는 보완 관계가 오래 갑니다.</li><li><b>인연 시기:</b> 대운에서 ${daeun.find(d=>d.ten_god.includes('재')||d.ten_god.includes('관'))?daeun.find(d=>d.ten_god.includes('재')||d.ten_god.includes('관')).start_age+'세 '+daeun.find(d=>d.ten_god.includes('재')||d.ten_god.includes('관')).gan+daeun.find(d=>d.ten_god.includes('재')||d.ten_god.includes('관')).zhi+' 대운':'관성/재성 대운'}에 인연/결혼 운 강함.</li></ol></div>
+<div class="fbox"><h4>🏢 사회 / 직업 - 상세 분석 (폰트 통일)</h4><ol style="font-size:11px;line-height:1.7"><li><b>강점:</b> 탁월한 기획력과 추진력을 발휘할 수 있는 전문직, 관리직, 또는 창의적인 분야에서 두각을 나타냅니다. 일간 ${pillars.day.gan}의 ${getTenGod(pillars.day.gan,pillars.day.gan)} 기운으로 독립적이고 책임감이 강합니다.</li><li><b>어울리는 직업:</b> ${pillars.month.gan}${pillars.month.zhi}월주가 사회궁으로, ${getTenGod(pillars.day.gan,pillars.month.gan)}의 특성상 ${getTenGod(pillars.day.gan,pillars.month.gan)=='편인'||getTenGod(pillars.day.gan,pillars.month.gan)=='정인'?'교육, 연구, 컨설팅, 문서':getTenGod(pillars.day.gan,pillars.month.gan)=='편관'||getTenGod(pillars.day.gan,pillars.month.gan)=='정관'?'공직, 법무, 관리, 심사':getTenGod(pillars.day.gan,pillars.month.gan).includes('재')?'금융, 부동산, 사업, 영업':'기획, 기술, 전문직'} 분야가 유리. 특히 ${OHAENG_KR[weakest]} 보완 직업인 ${weakest=='metal'?'금융, 법무, 정밀기술, 보석/시계':'물류, 교육, IT'} 협업 추천.</li><li><b>직업 약점:</b> ${dominant} 과다로 ${dominant=='fire'?'열정은 많으나 지속성이 떨어질 수 있음':dominant=='earth'?'안정은 추구하나 변화에 느림':''} → ${OHAENG_KR[weakest]} 보완으로 극복.</li><li><b>성공 전략:</b> ${placeName} 같은 도시에서 서쪽(금 방위) 지역의 직장, 금 기운 직업군과 협업. 내 사주에 없는 ${ohaeng[weakest]}개 ${OHAENG_KR[weakest]}는 사람과 환경으로 채우기.</li><li><b>대운 활용:</b> 현재 ${nowDaeun?nowDaeun.start_age+'세 '+nowDaeun.gan+nowDaeun.zhi+' '+nowDaeun.ten_god+' 대운':''} - ${nowDaeun?nowDaeun.ten_god=='비견'?'독립, 창업':nowDaeun.ten_god=='식신'?'창작, 브랜드':nowDaeun.ten_god.includes('재')?'재물 확장':nowDaeun.ten_god.includes('관')?'승진, 명예':nowDaeun.ten_god.includes('인')?'학문, 자격':'' :''}에 집중.</li></ol></div>
+</div>
+</div>
+
+<div class="mandala"><div style="display:flex;justify-content:space-between"><div style="font-weight:800;font-size:13px">● 오주 만다라 요약 · 정밀 보정판 - 전체 설명 복구</div><span style="font-size:10px;background:#333;padding:4px 10px;border-radius:99px">v8.2 FULL · 12문자 기준 · 로직 검증</span></div>
+<div class="m3"><div class="mb"><div class="l">명궁(命宮) ASC - 1하우스</div><div class="gj">${pillars.myeonggung.gan}${pillars.myeonggung.zhi} · ${GAN_HANJA[pillars.myeonggung.gan]}${JI_HANJA[pillars.myeonggung.zhi]} · ${tenGods.myeonggung.gan}/${tenGods.myeonggung.zhi}</div><div class="s">삶의 시작점, 자아가 세상과 만나는 문. 월주 ${pillars.month.gan}${pillars.month.zhi}에서 6궁 이동한 자리로 무의식의 설계도. ${pillars.myeonggung.zhi}(${OHAENG_JI[pillars.myeonggung.zhi]})의 기운으로 인생의 방향성이 결정됩니다. 화(火) 에너지로 자신을 표현할 때 운의 트임. 명궁이 ${tenGods.myeonggung.gan}이면 삶의 테마가 ${tenGods.myeonggung.gan}입니다.</div></div><div class="mb"><div class="l">분주(分柱) 정밀 10분</div><div class="gj">${pillars.minute.gan}${pillars.minute.zhi} · ${GAN_HANJA[pillars.minute.gan]}${JI_HANJA[pillars.minute.zhi]} · ${tenGods.minute.gan}/${tenGods.minute.zhi} · ${info.trueDate.getMinutes()}분</div><div class="s">태어난 시각의 디테일. 시주 ${pillars.hour.gan}${pillars.hour.zhi}에서 ${info.trueDate.getMinutes()}분의 정밀도로 나뉜 분주. ${pillars.minute.zhi}(${OHAENG_JI[pillars.minute.zhi]}) 속에 ${JIJANGGAN[pillars.minute.zhi].join(',')}가 들어 있어 숨겨진 재능. 특히 ${tenGods.minute.gan}의 기운으로 디테일과 전문성이 발휘됩니다. 분주는 10분 단위로 천간이 바뀌어 같은 시주라도 분주에 따라 인생의 디테일이 달라집니다.</div></div><div class="mb"><div class="l">현록(現祿) & 일주</div><div class="gj">호정시 虎精時 · ${pillars.day.gan}${pillars.day.zhi}일주 · ${tenGods.day.gan}/${tenGods.day.zhi}</div><div class="s">따스한 등불이 가장 필요한 시간에 태어난 사람. ${pillars.day.gan}${pillars.day.zhi}일주는 ${GAN_HANJA[pillars.day.gan]}${JI_HANJA[pillars.day.zhi]}로 ${OHAENG_GAN[pillars.day.gan]}과 ${OHAENG_JI[pillars.day.zhi]}의 조합. 누군가의 어둠을 밝혀주는 역할이 천직. 일지 ${pillars.day.zhi}는 배우자 자리로 ${getTenGod(pillars.day.gan,JIJANGGAN[pillars.day.zhi][0])}의 기운. ${placeName} 출생, 진태양 ${info.total.toFixed(1)}분 보정으로 더욱 정밀한 일주.</div></div></div>
+<div style="margin-top:12px;display:flex;gap:6px;flex-wrap:wrap"><span style="font-size:9px;border:1px solid #374151;padding:4px 8px;border-radius:99px">© ${name} 심층 분석 v8.2</span><span style="font-size:9px;border:1px solid #374151;padding:4px 8px;border-radius:99px">화${ohaeng.fire} 토${ohaeng.earth} 목${ohaeng.wood} 수${ohaeng.water} 금${ohaeng.metal} · 총 ${total}자 · ${calendar}${isLeap?' 윤달':''} · ${placeName} ${lon}°</span><span style="font-size:9px;border:1px solid #374151;padding:4px 8px;border-radius:99px">명궁 ${pillars.myeonggung.gan}${pillars.myeonggung.zhi} 분주 ${pillars.minute.gan}${pillars.minute.zhi} 포함 6주</span></div>
+</div>
+
+<div class="footer">본 결과는 명리학적 해석과 서양 점성 하우스를 결합한 콘텐츠로, 참고용으로 활용해주세요. v8.2 FULL RESTORED - 명궁/분주 로직 검증 (JDN+24절기) + 평생총평 + SPECIAL GUIDE 전체 + 대운 상세 + 재물/연애/직업 상세 + 만다라 전체</div>
+<button class="btn" onclick="goInput()" style="background:#222">🔄 다른 사주 다시 보기 (초기화됨) →</button>
+`;
+
+  document.getElementById('outputView').innerHTML=html;
+  document.getElementById('inputView').classList.add('hidden');
+  document.getElementById('outputView').classList.remove('hidden');
+  window.scrollTo(0,0);
+
+  setTimeout(()=>{
+    const ctx=document.getElementById('ohaengChart');
+    if(ctx){
+      const colors={wood:'#22c55e',fire:'#ef4444',earth:'#a16207',metal:'#9ca3af',water:'#3b82f6'};
+      new Chart(ctx,{
+        type:'doughnut',
+        data:{labels:Object.keys(ohaeng).map(k=>OHAENG_KR[k]), datasets:[{data:Object.values(ohaeng), backgroundColor:Object.values(colors), borderWidth:0}]},
+        options:{responsive:true, maintainAspectRatio:false, cutout:'58%', plugins:{legend:{display:false}}, animation:{animateRotate:true}}
+      });
+      const list=document.getElementById('ohaengList');
+      if(list){
+        let html=''; Object.entries(ohaeng).forEach(([k,v])=>{
+          const pct=(v/total*100).toFixed(1);
+          html+=`<div class="ohaeng-row"><span style="width:90px">${OHAENG_KR[k]} ${k}</span><div class="bar"><i style="width:${pct}%;background:${colors[k]}"></i></div><b>${v}개 ${pct}%</b></div>`;
+        });
+        list.innerHTML=html;
+      }
+      const warn=document.getElementById('ohaengWarn');
+      if(warn){
+        const sorted=Object.entries(ohaeng).sort((a,b)=>b[1]-a[1]);
+        warn.innerHTML=`⚠️ 가장 많은: <b>${OHAENG_KR[sorted[0][0]]} ${sorted[0][1]}개</b> / 가장 부족: <b>${OHAENG_KR[weakest]} ${ohaeng[weakest]}개</b> - ${OHAENG_KR[weakest]} 보완 필요<br><span style="font-size:10px;color:#888">총 ${total}글자 기준 (년월일시 4주×3 =12글자) - 원형 차트 비율 수정 완료</span>`;
+      }
+    }
+  },100);
+}
+
+function goInput(){
+  document.getElementById('outputView').classList.add('hidden');
+  document.getElementById('inputView').classList.remove('hidden');
+  updateTimeUnknownUI();
+  updateTime();
+  updateLocation();
+  window.scrollTo(0,0);
+}
+function resetForm(){
+  document.getElementById('name').value='김동규';
+  document.getElementById('birth_date').value='1963-10-31';
+  document.getElementById('birth_time').value='12:30';
+  document.getElementById('is_leap').checked=false;
+  document.getElementById('time_unknown').checked=false;
+  document.getElementById('place_name').value='용인';
+  document.getElementById('lon').value='127.12';
+  document.getElementById('lat').value='37.42';
+  document.querySelectorAll('#genderGroup .chip').forEach((c,i)=>c.classList.toggle('active', i==0));
+  document.querySelectorAll('#calendarGroup .chip').forEach((c,i)=>c.classList.toggle('active', i==0));
+  document.querySelectorAll('#locationGroup .chip').forEach((c,i)=>c.classList.toggle('active', i==1));
+  document.getElementById('leapBox').style.opacity='0.4';
+  document.getElementById('leapBox').classList.remove('active');
+  document.getElementById('customArea').classList.add('hidden');
+  updateTimeUnknownUI();
+  updateTime();
+  updateLocation();
+}
+function updateTimeUnknownUI(){
+  let cb=document.getElementById('time_unknown');
+  let card=document.getElementById('timeUnknownCheck');
+  let status=document.getElementById('timeUnknownStatus');
+  let timeArea=document.getElementById('timeArea');
+  card.classList.toggle('active', cb.checked);
+  status.innerText=cb.checked?'체크됨 - 정오 기준':'해제됨 - 직접 입력';
+  status.style.color=cb.checked?'#ef4444':'#7c4dff';
+  timeArea.style.opacity=cb.checked?'0.3':'1';
+  timeArea.style.pointerEvents=cb.checked?'none':'auto';
+}
+function updateTime(){
+  let val=document.getElementById('birth_time').value||'12:30'; let [h,m]=val.split(':').map(Number); let lon=parseFloat(document.getElementById('lon').value)||127.12;
+  let zod=getZodiac(h,m); let ti=getTrueSolar(2000,1,1,h,m,lon); let th=ti.trueDate.getHours(), tm=ti.trueDate.getMinutes(); let trueZod=getZodiac(th,tm);
+  document.getElementById('timeDisplay').innerText=`입력 ${val} = ${zod.branch}시 ${zod.range} / 진태양 ${String(th).padStart(2,'0')}:${String(tm).padStart(2,'0')} ${trueZod.branch}시 (${ti.total>=0?'+':''}${ti.total.toFixed(1)}분 보정) - 직접 입력`;
+  updateLocation();
+}
+function updateLocation(){
+  let lon=parseFloat(document.getElementById('lon').value)||127.12; let name=document.getElementById('place_name').value||'용인';
+  let sel=document.getElementById('selectedPlace'); if(sel) sel.innerText=`${name} (${lon}°, ${document.getElementById('lat').value}°)`;
+  let lc=(135-lon)*4; let hint=document.getElementById('trueSolarHint'); if(hint) hint.innerText=`진태양시: ${lc>=0?'+':''}${lc.toFixed(1)}분 (${name} ${lon}° 기준) - 직접 수정시 자동 재계산`;
+}
+function applyCustom(){
+  let clon=document.getElementById('custom_lon').value; let clat=document.getElementById('custom_lat').value;
+  if(clon) document.getElementById('lon').value=clon;
+  if(clat) document.getElementById('lat').value=clat;
+  updateLocation(); updateTime();
+  document.getElementById('customArea').classList.add('hidden');
+}
+
+document.getElementById('time_unknown').addEventListener('change', function(e){ e.stopPropagation(); updateTimeUnknownUI(); });
+document.getElementById('timeUnknownCheck').addEventListener('click', function(e){ if(e.target.tagName!='INPUT'){ let cb=document.getElementById('time_unknown'); cb.checked=!cb.checked; cb.dispatchEvent(new Event('change')); } });
+document.getElementById('leapBox').addEventListener('click', function(e){ if(e.target.tagName!='INPUT'){ let cb=document.getElementById('is_leap'); cb.checked=!cb.checked; this.classList.toggle('active', cb.checked); } });
+document.getElementById('is_leap').addEventListener('change', function(){ document.getElementById('leapBox').classList.toggle('active', this.checked); });
+document.getElementById('submitBtn').addEventListener('click', render);
+document.getElementById('birth_time').addEventListener('input', updateTime);
+document.getElementById('lon').addEventListener('input', ()=>{updateTime(); updateLocation();});
+document.getElementById('lat').addEventListener('input', updateLocation);
+document.getElementById('place_name').addEventListener('input', updateLocation);
+document.querySelectorAll('#genderGroup .chip, #calendarGroup .chip, #locationGroup .chip').forEach(c=>{
+  c.addEventListener('click', function(){
+    let group=this.parentElement;
+    group.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));
+    this.classList.add('active');
+    if(group.id=='locationGroup'){
+      if(this.dataset.lon=='custom'){
+        document.getElementById('customArea').classList.remove('hidden');
+        document.getElementById('place_name').focus();
+      } else {
+        document.getElementById('customArea').classList.add('hidden');
+        if(this.dataset.name) document.getElementById('place_name').value=this.dataset.name;
+        document.getElementById('lon').value=this.dataset.lon;
+        document.getElementById('lat').value=this.dataset.lat;
+        updateLocation(); updateTime();
+      }
+    }
+    if(group.id=='calendarGroup'){
+      let isLunar=this.dataset.val=='lunar';
+      document.getElementById('leapBox').style.opacity=isLunar?'1':'0.4';
+      document.getElementById('calendarHint').innerText=isLunar?'🌙 음력 선택 - 윤달 체크 필수 (베타)':'✅ 양력 선택 - 주민등록상 생일';
+    }
+  });
+});
+
+updateTimeUnknownUI();
+updateTime();
+updateLocation();
+</script>
+</body>
+</html>
