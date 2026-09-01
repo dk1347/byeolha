@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>별하 v8.7 FULL FIXED</title>
+<title>별하 v8.8 FULL FIXED</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -100,8 +100,8 @@ body{font-family:Pretendard,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;back
 
 <!-- INPUT - ALL BUGS FIXED -->
 <div id="inputView" class="card" style="max-width:540px;margin:20px auto">
-<h2 style="text-align:center;font-weight:900">⭐ 별하 v8.7 FULL FIXED ✅</h2>
-<p style="text-align:center;font-size:11px;color:#888;margin:6px 0 16px">v8.7 풀버전 - 초기화 작동 기반 복구</p>
+<h2 style="text-align:center;font-weight:900">⭐ 별하 v8.8 FULL FIXED ✅</h2>
+<p style="text-align:center;font-size:11px;color:#888;margin:6px 0 16px">v8.8 풀버전 - 초기화 작동 기반 복구</p>
 
 <div class="label"><span>👤 이름</span><button onclick="resetForm()" style="font-size:10px;padding:4px 10px;border-radius:99px;border:1px solid #ece8ff;background:#fff;cursor:pointer">🔄 초기화</button></div>
 <input class="input" id="name" value="김동규">
@@ -138,7 +138,7 @@ body{font-family:Pretendard,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;back
 <div style="font-size:10px;color:#888;margin-top:8px" id="trueSolarHint">진태양시: +48.4분</div>
 </div>
 
-<button class="btn" id="submitBtn" onclick="render()">✅ v8.7 사주 결과 보기 - 풀버전 →</button>
+<button class="btn" id="submitBtn" onclick="render()">✅ v8.8 사주 결과 보기 - 풀버전 →</button>
 </div>
 
 <div id="outputView" class="hidden"></div>
@@ -224,8 +224,8 @@ function getDaeun(pillars,gender){const yg=GANS.indexOf(pillars.year.gan), isYan
 function getZodiac(h,m){let tot=h*60+m;if(tot>=23*60||tot<60)return{branch:"자",range:"23:00-01:00"};if(tot<3*60)return{branch:"축",range:"01:00-03:00"};if(tot<5*60)return{branch:"인",range:"03:00-05:00"};if(tot<7*60)return{branch:"묘",range:"05:00-07:00"};if(tot<9*60)return{branch:"진",range:"07:00-09:00"};if(tot<11*60)return{branch:"사",range:"09:00-11:00"};if(tot<13*60)return{branch:"오",range:"11:00-13:00"};if(tot<15*60)return{branch:"미",range:"13:00-15:00"};if(tot<17*60)return{branch:"신",range:"15:00-17:00"};if(tot<19*60)return{branch:"유",range:"17:00-19:00"};if(tot<21*60)return{branch:"술",range:"19:00-21:00"};return{branch:"해",range:"21:00-23:00"};}
 
 function render(){
-  alert("✅ v8.7 계산 시작 - 버튼 살아있음!");
-  console.log("v8.7 render");
+  alert("✅ v8.8 계산 시작 - 버튼 살아있음!");
+  console.log("v8.8 render");
   try{
 
   const name=document.getElementById('name').value||'김동규';
@@ -250,6 +250,7 @@ function render(){
   const dominant=Object.entries(ohaeng).sort((a,b)=>b[1]-a[1])[0][0];
   const tenGods={}; ["year","month","day","hour","minute","myeonggung"].forEach(pos=>{if(!pillars[pos])return; tenGods[pos]={gan:getTenGod(pillars.day.gan,pillars[pos].gan),zhi:getTenGod(pillars.day.gan,JIJANGGAN[pillars[pos].zhi][0])};});
   const currentAge=new Date().getFullYear()-y+1;
+  const ygIdx=GANS.indexOf(pillars.year.gan); const isYang=ygIdx%2==0; const isSun=(isYang&&gender=='male')||(!isYang&&gender=='female');
   const nowDaeun=daeun.find(dd=>currentAge>=dd.start_age&&currentAge<=dd.end_age);
 
   const html=`
@@ -296,7 +297,7 @@ function render(){
 <div class="grid2" style="margin-top:12px"><div class="special"><div class="sec"><span class="num" style="background:#8b5cf6">3</span> 일상 습관 <span class="badge">DAILY - 상세 설명</span></div><ul class="list"><li>🌅 <b>아침 7-9시 (진시, 금 시간) 가벼운 정리정돈</b><br><span style="color:#888">10분 책상·가방 정리 = 하루의 금 기운 세팅. 진시(辰)는 금의 창고 시간으로, 이 시간에 정리하면 하루 종일 결단력이 유지됩니다. 방법: 책상 위 물건 3개만 남기고 나머지 수납, 가방 속 영수증 정리</span></li><li>🎐 <b>주 1회 금속 소리 (윈드차임, 종, 싱잉볼)</b><br><span style="color:#888">맑은 금속음이 탁한 화(火) 기운을 식혀줍니다. 일요일 아침 10분, 윈드차임을 창가에 걸고 바람 소리 듣기, 또는 싱잉볼 3회 울리기. 금속 소리는 폐(肺)를 자극해 깊은 호흡을 유도합니다.</span></li><li>🗒️ <b>숫자와 구조화 - 가계부, 플래너, 엑셀 쓰기</b><br><span style="color:#888">금(金)은 구조, 기록할 때 재물 감각이 생깁니다. 매일 저녁 10분 가계부, 주간 플래너는 숫자로 목표 설정 (예: 이번 주 3건 계약). 엑셀, 노션 등 구조화된 도구가 금 기운과 잘 맞습니다.</span></li><li>🧘 <b>호흡이 깊어지는 명상, 폐활량 운동</b><br><span style="color:#888">폐=금(金), 깊은 호흡 3분이 금 기운 충전. 아침 기상 후 4-4-4 호흡 (4초 들이마시기, 4초 참기, 4초 내쉬기) 5회 반복. 등산, 수영 등 폐활량을 늘리는 운동이 금 기운 보완에 최고입니다.</span></li></ul></div><div class="blackbox"><div class="sec" style="color:#fff"><span class="num" style="background:#fff;color:#111">4</span> 방향 & 공간 <span class="badge" style="background:#222;color:#aaa">FENG SHUI - 상세 설명</span></div><h5>DIRECTION - 방향</h5><p><b style="color:#fff">서쪽, 북서쪽에 책상 두기 - 금(金)의 방위</b><br>서쪽=금(金)의 방위. 업무 집중·결정이 필요한 자리는 서향이 유리합니다. 집에서는 서쪽 방을 서재로, 회사에서는 서쪽 창가 자리. 잠잘 때는 머리를 서쪽으로 두면 결단력이 높아집니다. 북서쪽은 천(天)의 방위로 리더십과 관련됩니다.</p><h5 style="margin-top:10px">OBJECT - 공간 오브제</h5><p><b style="color:#fff">서쪽에 원형 금속 오브제 배치 - 원형=금(金)</b><br>원형=금, 메탈 트레이, 라운드 시계, 스틸 조명이 행운 포인트. 서쪽 벽에 원형 시계, 원형 금속 트레이에 열쇠 보관, 스테인리스 스틸 스탠드 조명. 둥근 모양이 많을수록 금 기운이 모입니다. 사각형은 토(土), 원형이 금(金)입니다.</p><h5 style="margin-top:10px">COLOR IN SPACE - 공간 컬러</h5><p><b style="color:#fff">서쪽 방은 화이트+실버, 북서쪽은 골드 포인트</b><br>서쪽 방 전체를 화이트 톤으로, 포인트는 실버 쿠션, 골드 액자. 북서쪽에는 골드 컬러의 작은 오브제 (예: 골드 펜꽂이). 바닥은 밝은 우드나 그레이 카펫이 금 기운을 안정시킵니다.</p><div style="margin-top:12px;background:#1f2937;border-radius:10px;padding:10px"><h5 style="color:#fcd34d">CAREER BOOST - 직업적 보완 (상세)</h5><p style="color:#ddd"><b>직업적 보완: 금융, 법무, 심사, 정밀기술, 보석/시계, 정리/컨설팅 분야 협업</b></p><div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap"><span class="badge">금융</span><span class="badge">법무</span><span class="badge">심사</span><span class="badge">정밀기술</span><span class="badge">보석/시계</span><span class="badge">컨설팅</span></div><p style="margin-top:8px;font-size:10px;color:#9ca3af;line-height:1.5">금 기운이 강한 사람·직업과 협업하면 내 부족한 ${ohaeng[weakest]}개가 채워집니다. 예: 금융권 친구와 점심, 법무사 자문, 시계 수리점 단골 되기. 내 사주에 없는 기운은 사람과 환경으로 채우는 것이 명리학의 핵심입니다. 특히 ${placeName} 같은 도시에서 서쪽에 위치한 금융가, 법조타운과 인연을 맺으세요.</p></div></div></div>
 </div>
 
-<div class="card"><div style="display:flex;justify-content:space-between"><div class="sec"><span class="num">4</span> 80년 대운 흐름 <span style="font-weight:400;color:#888;font-size:11px">4세부터 시작·10년 단위 · 현재 ${currentAge}세 · ${gender=='male'?'남':'여'} ${GANS.indexOf(pillars.year.gan)%2==0?'양':'음'}간 ${isSun?'순행':'역행'}</span></div><span style="font-size:9px;color:#888">※ 십성은 지장간 기준 · 상세 설명 복구</span></div>
+<div class="card"><div style="display:flex;justify-content:space-between"><div class="sec"><span class="num">4</span> 80년 대운 흐름 <span style="font-weight:400;color:#888;font-size:11px">4세부터 시작·10년 단위 · 현재 ${currentAge}세 · ${gender=='male'?'남':'여'} ${GANS.indexOf(pillars.year.gan)%2==0?'양':'음'}간 ${( (GANS.indexOf(pillars.year.gan)%2==0 && gender=='male') || (GANS.indexOf(pillars.year.gan)%2!=0 && gender=='female') ) ? '순행' : '역행'}un?'순행':'역행'}</span></div><span style="font-size:9px;color:#888">※ 십성은 지장간 기준 · 상세 설명 복구</span></div>
 <div class="daeun">
 ${daeun.map(d=>`<div class="d ${nowDaeun&&nowDaeun.start_age==d.start_age?'now':''}"><div class="age">${d.start_age}-${d.end_age}세 ${nowDaeun&&nowDaeun.start_age==d.start_age?'<span class="badge" style="background:#fef3c7;color:#92400e">현재</span>':''}</div><div class="gj">${d.gan}${d.zhi}</div><span class="tit">[${d.gan}${d.zhi} 대운 · ${d.ten_god} · ${d.ten_god_ji}]</span><p style="font-size:11px;line-height:1.6;margin-top:6px">${d.start_age==4?'<b>뿌리 내리기:</b> 기초를 다지고 주변의 보호 아래 학업과 인생의 뿌리를 내리는 시기. 부모, 조부모의 지원이 많고 학업에 집중하면 평생의 토대가 됩니다. 이 시기에 배운 것이 평생 간다.':d.start_age==14?'<b>방향 설정:</b> 학문과 자격, 진로 방향이 잡히는 시기. 중고등학교, 대학 진학으로 인생의 첫 분기점. 친구 관계와 첫 사회 경험이 중요. 자격증, 어학 등 스펙 쌓기에 유리.':d.start_age==24?'<b>전문성 구축:</b> 전문성을 갈고닦아 나만의 기술과 브랜드를 만드는 10년. 사회 초년생으로 실수를 두려워 말고 경험 쌓기. 이 시기의 실패는 30대의 자양분. 1만 시간의 법칙을 실천.':d.start_age==34?'<b>독립과 확장:</b> 비견의 독립심과 추진력으로 창업, 이직, 확장이 활발한 시기. 결혼, 출산, 내 집 마련 등 인생의 큰 결정이 몰려 있다. 무리한 확장보다 내실 다지기가 중요.':d.start_age==44?'<b>황금기:</b> 일주 정미와 같은 불의 기운으로 인생의 꽃이 가장 화려하게 피는 황금기. 지금까지 쌓은 것들이 결실을 맺는다. 리더십 발휘, 후배 양성, 사회적 인정이 따르는 시기.':d.start_age==54?'<b>나눔과 가르침:</b> 쌓아온 경험을 나누고 가르치는 시기. 강의, 저술, 멘토링으로 제2의 커리어를 만들 수 있다. 건강 관리 시작, 가족과의 시간 늘리기.':d.start_age==64?'<b>지혜 정리:</b> 지혜를 정리하고 두 번째 전성기를 준비하는 시기. 은퇴 후 삶 설계, 취미와 봉사, 여행으로 삶의 폭 넓히기. 재물 관리 보수적으로 전환.':d.start_age==74?'<b>안정과 회고:</b> 재물과 경험을 안정적으로 지키고 나누는 시기. 손주, 가족과의 시간, 건강이 최우선. 지금까지의 삶을 책으로 정리하거나 구술로 남기기에 좋은 때.':''}</p><p style="font-size:10px;color:#7c4dff;margin-top:6px">💡 ${d.ten_god} 대운: ${d.ten_god=='비견'?'독립심 강해짐, 경쟁자 출현':d.ten_god=='식신'?'창작, 표현, 먹을 복':d.ten_god=='편재'?'큰 재물, 투자 기회':d.ten_god=='정재'?'안정적 재물, 저축':d.ten_god=='편관'?'압박, 책임, 승진':d.ten_god=='정관'?'명예, 자격, 안정적 승진':d.ten_god=='편인'?'학문, 자격, 문서':d.ten_god=='정인'?'보호, 지원, 학문':d.ten_god=='겁재'?'경쟁, 지출, 형제':d.ten_god=='상관'?'표현, 언변, 기술':''} + 지장간 ${d.ten_god_ji}</p></div>`).join('')}
 </div>
