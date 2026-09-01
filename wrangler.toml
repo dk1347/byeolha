@@ -1,9 +1,5 @@
 name = "byeolha"
 type = "javascript"
-[assets]
-directory = "./"
-cat > wrangler.toml << 'EOF'
-name = "byeolha"
-type = "javascript"
+
 [assets]
 directory = "./"
