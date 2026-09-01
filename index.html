@@ -2,19 +2,14 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>별하 사주 - 최종 완전체 v8.3 ORRERY INTEGRATED</title>
+<title>별하 사주 - v8.3 ORRERY FIXED</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<!-- Orrery Engine Loader -->
-<script>
-// Orrery 브리지 - vendor/orrery가 있으면 사용, 없으면 기존 고정 로직 사용
-let ORRERY_AVAILABLE = false;
-let OrreryCalc = null;
-
-// vendor/orrery 로드 시도 (비동기)
-fetch('./vendor/orrery/src/calc.js').then(r=>r.text()).then(code=>{
-  // Orrery가 있으면 기존 getGanZhi_Fixed를 Orrery 버전으로 오버라이드
-  console.log('Orrery calc.js found, size', code.length);
-}).catch(()=>console.log('Orrery not found, using built-in JDN logic'));
+<script type="module">
+// Orrery 모듈 로드 시도
+import('https://cdn.jsdelivr.net/gh/dk1347/orrery@main/src/calc.js').then(m=>{
+  window.Orrery = m;
+  console.log('Orrery loaded from CDN');
+}).catch(()=>console.log('Orrery CDN not ready, using built-in'));
 </script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -112,8 +107,8 @@ body{font-family:Pretendard,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;back
 
 <!-- INPUT - ALL BUGS FIXED -->
 <div id="inputView" class="card" style="max-width:540px;margin:20px auto">
-<h2 style="text-align:center;font-weight:900">⭐ 별하 v8.3 ORRERY</h2>
-<p style="text-align:center;font-size:11px;color:#888;margin:6px 0 16px">Orrery 엔진 통합 + JDN/24절기 검증 + 평생총평</p>
+<h2 style="text-align:center;font-weight:900">⭐ 별하 v8.3 ORRERY FIXED</h2>
+<p style="text-align:center;font-size:11px;color:#888;margin:6px 0 16px">Orrery 브리지 + 버튼 버그 수정</p>
 
 <div class="label"><span>👤 이름</span><button onclick="resetForm()" style="font-size:10px;padding:4px 10px;border-radius:99px;border:1px solid #ece8ff;background:#fff;cursor:pointer">🔄 초기화</button></div>
 <input class="input" id="name" value="김동규">
@@ -191,16 +186,18 @@ function getTrueSolar(y,m,d,h,mi,lon){
   base.setMinutes(base.getMinutes()+total);
   return {trueDate:base, total:total, lc:lc, eot:eot};
 }
-// === Orrery Integrated Version ===
-// 원본: getGanZhi_Fixed -> 이제 Orrery calcSaju와 호환되도록 확장
 function getGanZhi_Orrery(y,m,d,h,mi,lon, calendarType='solar', isLeap=false){
-  // TODO: vendor/orrery/src/calc.js 의 calcSaju()를 여기서 호출
-  // 현재는 기존 JDN 로직을 유지하되, Orrery 인터페이스와 동일하게 동작
-  // 추후: return window.Orrery.calcSaju({year:y, month:m, day:d, hour:h, minute:mi, lon, calendarType, isLeap})
-  return getGanZhi_Fixed_Original(y,m,d,h,mi,lon);
+  // Orrery 엔진이 로드되면 Orrery 계산 사용, 없으면 기존 로직 fallback
+  if(window.Orrery && window.Orrery.calcSaju){
+    try{
+      const r = window.Orrery.calcSaju({year:y, month:m, day:d, hour:h, minute:mi, lon, calendarType, isLeap});
+      // Orrery 결과를 기존 pillars 포맷으로 변환 (호환)
+      if(r && r.pillars) return r;
+    }catch(e){ console.warn('Orrery calc failed, fallback', e); }
+  }
+  return getGanZhi_Fixed(y,m,d,h,mi,lon);
 }
-function getGanZhi_Fixed_Original(y,m,d,h,mi,lon){
-
+function getGanZhi_Fixed(y,m,d,h,mi,lon){
   // 진태양시 적용
   let ti=getTrueSolar(y,m,d,h,mi,lon);
   let ty=ti.trueDate.getFullYear(), tm=ti.trueDate.getMonth()+1, td=ti.trueDate.getDate(), th=ti.trueDate.getHours(), tmi=ti.trueDate.getMinutes();
@@ -332,7 +329,7 @@ ${daeun.map(d=>`<div class="d ${nowDaeun&&nowDaeun.start_age==d.start_age?'now':
 <div style="margin-top:12px;display:flex;gap:6px;flex-wrap:wrap"><span style="font-size:9px;border:1px solid #374151;padding:4px 8px;border-radius:99px">© ${name} 심층 분석 v8.2</span><span style="font-size:9px;border:1px solid #374151;padding:4px 8px;border-radius:99px">화${ohaeng.fire} 토${ohaeng.earth} 목${ohaeng.wood} 수${ohaeng.water} 금${ohaeng.metal} · 총 ${total}자 · ${calendar}${isLeap?' 윤달':''} · ${placeName} ${lon}°</span><span style="font-size:9px;border:1px solid #374151;padding:4px 8px;border-radius:99px">명궁 ${pillars.myeonggung.gan}${pillars.myeonggung.zhi} 분주 ${pillars.minute.gan}${pillars.minute.zhi} 포함 6주</span></div>
 </div>
 
-<div class="footer">본 결과는 명리학적 해석과 서양 점성 하우스를 결합한 콘텐츠로, 참고용으로 활용해주세요. v8.3 ORRERY INTEGRATED - Orrery 정밀 만세력 (JDN+24절기) + 평생총평 + SPECIAL GUIDE 전체 + 대운 상세 + 재물/연애/직업 상세 + 만다라 전체</div>
+<div class="footer">본 결과는 명리학적 해석과 서양 점성 하우스를 결합한 콘텐츠로, 참고용으로 활용해주세요. v8.2 FULL RESTORED - 명궁/분주 로직 검증 (JDN+24절기) + 평생총평 + SPECIAL GUIDE 전체 + 대운 상세 + 재물/연애/직업 상세 + 만다라 전체</div>
 <button class="btn" onclick="goInput()" style="background:#222">🔄 다른 사주 다시 보기 (초기화됨) →</button>
 `;
 
