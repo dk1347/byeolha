@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>별하 사주 v8.3 FIXED - 버튼 복구</title>
+<title>별하 v8.4 FINAL - 버튼 무적</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -17,7 +17,7 @@ body{font-family:Pretendard,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;back
 .pillars6{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-top:12px}
 @media(max-width:900px){.pillars6{grid-template-columns:repeat(3,1fr)}}
 .p6{border:1px solid #ece8ff;border-radius:18px;padding:12px 8px;background:#faf9ff;text-align:center;position:relative}
-.p6.day{background:linear-gradient(135deg,#7c4dff,#5a5eff);color:#fff;border-color:#7c4dff;transform:translateY(-4px);box-shadow:0 10px 24px rgba(124,77,255,0.25)}
+.p6.day{background:linear-gradient(135deg,#00c853,#009624);color:#fff;border-color:#7c4dff;transform:translateY(-4px);box-shadow:0 10px 24px rgba(124,77,255,0.25)}
 .p6 .label{font-size:11px;color:#9a95b5;margin-bottom:8px}.p6.day .label{color:#ddd6fe}
 .p6 .han{font-size:26px;font-weight:900}
 .p6 .han2{font-size:12px;font-weight:700;margin-top:4px}
@@ -73,7 +73,7 @@ body{font-family:Pretendard,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;back
 .mb{border:1px solid #374151;border-radius:14px;padding:12px}
 .mb .l{font-size:9px;color:#9ca3af}.mb .gj{font-size:16px;font-weight:900;margin:6px 0;color:#fff}.mb .s{font-size:10px;color:#9ca3af;line-height:1.5}
 .footer{text-align:center;font-size:10px;color:#aaa;padding:12px}
-.btn{display:block;text-align:center;background:linear-gradient(135deg,#7c4dff,#5a5eff);color:#fff;padding:14px;border-radius:14px;text-decoration:none;font-weight:800;margin-top:12px;border:none;cursor:pointer;width:100%}
+.btn{display:block;text-align:center;background:linear-gradient(135deg,#00c853,#009624);color:#fff;padding:14px;border-radius:14px;text-decoration:none;font-weight:800;margin-top:12px;border:none;cursor:pointer;width:100%}
 .hidden{display:none}
 .chip-group{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
 .chip{padding:8px 14px;border-radius:99px;border:1.5px solid #ece8ff;background:#fff;font-size:12px;font-weight:700;cursor:pointer}
@@ -100,8 +100,8 @@ body{font-family:Pretendard,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;back
 
 <!-- INPUT - ALL BUGS FIXED -->
 <div id="inputView" class="card" style="max-width:540px;margin:20px auto">
-<h2 style="text-align:center;font-weight:900">⭐ 별하 v8.3 FIXED</h2>
-<p style="text-align:center;font-size:11px;color:#888;margin:6px 0 16px">버튼 버그 수정 - 원본 로직 복구</p>
+<h2 style="text-align:center;font-weight:900">⭐ 별하 v8.4 FINAL ✅ 버튼살림</h2>
+<p style="text-align:center;font-size:11px;color:#888;margin:6px 0 16px">v8.4 - 버튼 무적 모드 + 디버그</p>
 
 <div class="label"><span>👤 이름</span><button onclick="resetForm()" style="font-size:10px;padding:4px 10px;border-radius:99px;border:1px solid #ece8ff;background:#fff;cursor:pointer">🔄 초기화</button></div>
 <input class="input" id="name" value="김동규">
@@ -224,6 +224,9 @@ function getDaeun(pillars,gender){const yg=GANS.indexOf(pillars.year.gan), isYan
 function getZodiac(h,m){let tot=h*60+m;if(tot>=23*60||tot<60)return{branch:"자",range:"23:00-01:00"};if(tot<3*60)return{branch:"축",range:"01:00-03:00"};if(tot<5*60)return{branch:"인",range:"03:00-05:00"};if(tot<7*60)return{branch:"묘",range:"05:00-07:00"};if(tot<9*60)return{branch:"진",range:"07:00-09:00"};if(tot<11*60)return{branch:"사",range:"09:00-11:00"};if(tot<13*60)return{branch:"오",range:"11:00-13:00"};if(tot<15*60)return{branch:"미",range:"13:00-15:00"};if(tot<17*60)return{branch:"신",range:"15:00-17:00"};if(tot<19*60)return{branch:"유",range:"17:00-19:00"};if(tot<21*60)return{branch:"술",range:"19:00-21:00"};return{branch:"해",range:"21:00-23:00"};}
 
 function render(){
+  alert('버튼 클릭됨! 렌더 시작...');
+  try{
+
   const name=document.getElementById('name').value||'김동규';
   const bd=document.getElementById('birth_date').value||'1963-10-31';
   const bt=document.getElementById('birth_time').value||'12:30';
