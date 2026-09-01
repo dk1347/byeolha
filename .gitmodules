@@ -1,0 +1,3 @@
+[submodule "vendor/orrery"]
+	path = vendor/orrery
+	url = https://github.com/rath/orrery.git
